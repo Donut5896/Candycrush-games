@@ -27,6 +27,11 @@ document.addEventListener('DOMContentLoaded', () => {
     createBoard()
 
     //drag and drop function
+    let  colorBeingDragged
+    let  colorBeingReplaced
+    let squareIdBeingDragged
+    let squareIdBeingReplaced
+
     squares.forEach(square => square.addEventListener('dragstart', dragStart))
     squares.forEach(square => square.addEventListener('dragend', dragEnd))
     squares.forEach(square => square.addEventListener('dragover', dragOver))
@@ -35,21 +40,61 @@ document.addEventListener('DOMContentLoaded', () => {
     squares.forEach(square => square.addEventListener('drop', dragDrop))
 
     function dragStart(){
+        //store draged square color
+        colorBeingDragged = this.style.backgroundColor
+        squareIdBeingDragged = parseInt(this.id)
+        //console.log(colorBeingDragged)
         console.log(this.id, 'dragstart')
     }
-    function dragOver(){
+    function dragOver(e){
+        e.preventDefault()
         console.log(this.id, 'dragover')
     }
-    function dragEnd(){
-        console.log(this.id, 'dragend')
-    }
-    function dragEnter(){
+   
+    function dragEnter(e){
+        e.preventDefault()
         console.log(this.id, 'dragenter')
     }
     function dragLeave(){
         console.log(this.id, 'dragleave')
     }
     function dragDrop(){
-        console.log(this.id, 'draggrop')
+        //store original color in that square
+         console.log(this.id, 'draggrop')
+        colorBeingReplaced = this.style.backgroundColor
+        squareIdBeingReplaced = parseInt(this.id)
+        //console.log(squareIdBeingReplaced)
+         //console.log(colorBeingReplaced)
+
+         this.style.backgroundColor = colorBeingDragged
+       //change the original color to target color when dragged
+        squares[squareIdBeingDragged].style.backgroundColor = colorBeingReplaced
+        //console.log(squareIdBeingDragged)
+    }
+    function dragEnd(){
+
+        console.log(this.id, 'dragend')
+        //valid move. switch rules
+        let validMoves = [squareIdBeingDragged - 1, //            59
+        squareIdBeingDragged - width, // 59 - 8 = 51           66|67|68   
+        squareIdBeingDragged + 1,//                               75
+        squareIdBeingDragged + width ]// 75 - 8 = 83 
+
+
+        let validMove = validMoves.includes(squareIdBeingReplaced)
+
+        if(squareIdBeingReplaced && validMove){
+            //if statement is true refresh the id ready to start over
+             squareIdBeingReplaced = null
+        }else if(squareIdBeingReplaced && !validMove){
+            //if statement is not true set square to original color
+            squares[squareIdBeingReplaced].style.backgroundColor = colorBeingReplaced
+            squares[squareIdBeingDragged].style.backgroundColor = colorBeingDragged
+        }else{
+            squares[squareIdBeingDragged].style.backgroundColor = colorBeingDragged
+            
+        }
+        console.log(colorBeingDragged)
+
     }
 })
