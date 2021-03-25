@@ -64,13 +64,15 @@ document.addEventListener('DOMContentLoaded', () => {
         colorBeingReplaced = this.style.backgroundColor
         squareIdBeingReplaced = parseInt(this.id)
         //console.log(squareIdBeingReplaced)
-         //console.log(colorBeingReplaced)
+        
 
          this.style.backgroundColor = colorBeingDragged
        //change the original color to target color when dragged
         squares[squareIdBeingDragged].style.backgroundColor = colorBeingReplaced
         //console.log(squareIdBeingDragged)
+         console.log(colorBeingReplaced)
     }
+
     function dragEnd(){
 
         console.log(this.id, 'dragend')
@@ -84,17 +86,20 @@ document.addEventListener('DOMContentLoaded', () => {
         let validMove = validMoves.includes(squareIdBeingReplaced)
 
         if(squareIdBeingReplaced && validMove){
-            //if statement is true refresh the id ready to start over
+            //if statement is true , reset the id value ready for fresh start
              squareIdBeingReplaced = null
         }else if(squareIdBeingReplaced && !validMove){
-            //if statement is not true set square to original color
+            //if the valid Move is not true, return original spot and color
             squares[squareIdBeingReplaced].style.backgroundColor = colorBeingReplaced
             squares[squareIdBeingDragged].style.backgroundColor = colorBeingDragged
+            
         }else{
+            //square is dragged outside the grid and had nowhere to go, return original spot and color
             squares[squareIdBeingDragged].style.backgroundColor = colorBeingDragged
             
         }
-        console.log(colorBeingDragged)
+        console.log(colorBeingReplaced) //target square
+        console.log(colorBeingDragged) // original square
 
     }
 })
