@@ -102,4 +102,17 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log(colorBeingDragged) // original square
 
     }
+
+
+
+    //checking for matches
+    function checkRowForThree(){
+        for( i= 0 ; i < 61; i++){
+            let rowOfThree = [i, i+1, i+2]
+        }
+    }
+
+
+
+
 })
