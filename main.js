@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const grid = document.querySelector('.grid')
     const width = 8
     const squares = []
+    let score = 0
 
     const candyColors = [ 'red', 'yellow', 'orange','purple', 'green', 'blue']
 
@@ -109,10 +110,45 @@ document.addEventListener('DOMContentLoaded', () => {
     function checkRowForThree(){
         for( i= 0 ; i < 61; i++){
             let rowOfThree = [i, i+1, i+2]
+            let decideColor = squares[i].style.backgroundColor
+            const isBlank = squares[i].style.backgroundColor === ''
+
+            if(rowOfThree.every(index => squares[index].style.backgroundColor === decideColor && !isBlank)){
+                //score count
+                score += 3
+                //assign blank color for matched switch
+                rowOfThree.forEach(index => {
+                    squares[index].style.backgroundColor = ''
+                })
+            }
         }
     }
+    checkRowForThree()
 
+    //check column for three
+    function checkColumnForThree(){
+        for( i= 0 ; i < 47; i++){
+            let columnOfThree = [i, i+ width, i+ width * 2]
+            console.log(columnOfThree)
+            let decideColor = squares[i].style.backgroundColor
+            const isBlank = squares[i].style.backgroundColor === ''
 
+            if(columnOfThree.every(index => squares[index].style.backgroundColor === decideColor && !isBlank)){
+                //score count
+                score += 3
+                //assign blank color for matched switch
+                columnOfThree.forEach(index => {
+                    squares[index].style.backgroundColor = ''
+                })
+            }
+        }
+    }
+    checkColumnForThree()
 
+    //invoke the function contantly while playing the games
+    window.setInterval( function(){
+        checkRowForThree()
+        checkColumnForThree()
+    }, 100)
 
 })
